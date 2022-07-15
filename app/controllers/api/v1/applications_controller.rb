@@ -13,13 +13,13 @@ module Api
 
       # Main Endpoints
       def create
-        response = @application_service.create_new(user_application_params)
+        response = @application_service.create_new(application_name_param)
         render response.render_response
       end
 
       # Update Application by Token.
       def update
-        response = @application_service.update_application_by_token(params[:token], user_application_params)
+        response = @application_service.update_application_by_token(params[:token], application_name_param)
         render response.render_response
       end
 
@@ -36,7 +36,7 @@ module Api
       private
 
       # Permit Checks.
-      def user_application_params
+      def application_name_param
         # Allow only name to be passed as token and chats_count is system-generated
         # and should not be made possible to alter from outside.
         params.require(:name)

@@ -2,10 +2,11 @@
 
 # General Response Class to be used to return a suitable response from services.
 class Response
-  def initialize(status_code, message, payload)
+  def initialize(status_code, message, payload, except = %i[])
     @status_code = status_code
     @message = message
     @payload = payload
+    @except = except
 
     @status_message = if status_code < 300 && status_code >= 200
                         'SUCCESS'
@@ -20,8 +21,7 @@ class Response
         message: @message,
         data: @payload
       },
-      except: [:id],
-      status: @status_code
-    }
+      except: @except,
+      status: @status_code }
   end
 end

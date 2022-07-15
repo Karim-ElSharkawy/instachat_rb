@@ -4,52 +4,52 @@ module Api
   module V1
     # Controller for the Chats Model.
     class ChatsController < ApplicationController
-      # Error Handling Redirections.
-      rescue_from ::ActiveRecord::RecordNotFound, with: :record_not_found
-      rescue_from ::ActionController::ParameterMissing, with: :parameter_missing
-      rescue_from ::NameError, with: :error_occurred
-      rescue_from ::ActionController::RoutingError, with: :error_occurred
+
+      before_action :initialize_instance_variables
+
+      def initialize_instance_variables
+        @chat_service = ChatService.new
+      end
 
       # Main Endpoints
       def create
-        @application = UserApplication.create(name: user_application_params[:name], token: SecureRandom.uuid)
-
-        if @application.save
-          render json: { status: 'SUCCESS', message: 'Application created.', data: @application },
-                 except: [:id],
-                 status: :created
-        else
-          render json: { status: 'Failure', message: 'Application failed to be created.', data: @application.errors },
-                 except: [:id],
-                 status: :unprocessable_entity
-        end
+        response = @chat_service.create_new(params[:application_token])
+        render response.render_response
       end
 
+      # Update Application by Token.
       def update
-        @application = UserApplication.update(params[:id], name: user_application_params)
+        response = @chat_service.update_chat(
+          params[:application_token],
+          params[:chat_number],
+          allowed_chat_params
+        )
+        render response.render_response
+      end
 
-        if @application.save
-          render json: { status: 'SUCCESS', message: 'Application created.', data: @application },
-                 except: [:id],
-                 status: :created
-        else
-          render json: { status: 'Failure', message: 'Application failed to be created.', data: @application.errors },
-                 except: [:id],
-                 status: :unprocessable_entity
-        end
+      def destroy
+        response = @chat_service.delete_chat(
+          params[:application_token],
+          params[:chat_number]
+        )
+        render response.render_response
       end
 
       def show
-        @user_application = UserApplication.find(params[:id])
-        render json: { status: 'SUCCESS', message: 'Application found.', data: @user_application }, except: [:id],
-               status: :ok
+        response = @chat_service.show_chat(
+          params[:application_token],
+          params[:chat_number]
+        )
+        render response.render_response
       end
 
       private
 
       # Permit Checks.
-      def user_application_params
-        params.require(:name)
+      def allowed_chat_params
+        # Currently, there is no field that needs to be updated in Chats. As they are all handled by the system
+        # and it is not safe to allow all parameters to be updated at will.
+        # params.require(:messages_count)
       end
 
     end
