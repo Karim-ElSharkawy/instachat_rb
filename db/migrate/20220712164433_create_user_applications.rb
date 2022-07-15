@@ -8,5 +8,7 @@ class CreateUserApplications < ActiveRecord::Migration[7.0]
 
       # t.timestamps
     end
+
+    add_index :user_applications, :token
   end
 end

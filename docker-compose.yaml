@@ -1,13 +1,65 @@
 version: "3.9"
 services:
   mysql:
-    image: "mysql"
+    image: "mysql:5.7.29"
     restart: always
     ports:
       - "3307:3306"
     environment:
       - MYSQL_ROOT_PASSWORD=9gMFmlsGyd
+#    volumes:
+#      - mysql:/var/run/instachat_rails
+#    logging:
+#      driver: none
   elasticsearch:
     image: "elasticsearch:8.3.2"
     ports:
       - "9200:9200"
+#    logging:
+#      driver: none
+  redis:
+    image: "redis"
+    command: redis-server
+    volumes:
+      - redis:/data
+    ports:
+      - "6379:6379"
+#    logging:
+#      driver: none
+  sidekiq:
+    build: .
+    command: bundle exec sidekiq
+    environment:
+      RAILS_ENV: development
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+    depends_on:
+      - "redis"
+#    logging:
+#      driver: none
+  web:
+    build: .
+    command: bash -c "bundle install && rails db:prepare && bundle exec rails s -p 3000 -e development -b '0.0.0.0'"
+    environment:
+      DB_USERNAME: root
+      DB_PASSWORD: 9gMFmlsGyd
+      DB_NAME: insta_chat
+#      DB_PORT: 3307 # Commented to allow Docker to connect to mysql directly.
+      DB_HOST: mysql
+      RAILS_ENV: development
+      RAILS_MAX_THREADS: 5
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+      BUNDLE_PATH: /bundle
+    volumes:
+      - ./:/rails-app
+      - bundle:/bundle
+    ports:
+      - "3000:3000"
+    depends_on:
+      - "mysql"
+      - "redis"
+volumes:
+  mysql:
+  bundle:
+  redis:
