@@ -19,7 +19,7 @@ default: &default
   port: <%= ENV['DB_PORT'] %>
   host: <%= ENV['DB_HOST'] %>
   database: <%= ENV['DB_NAME'] %>
-#  socket: /var/run/mysqld/mysqld.sock
+#  socket: /var/run/instachat_rails/mysqld.sock
 
 development:
   <<: *default

@@ -12,6 +12,7 @@ WORKDIR /rails-app
 # Adding gems
 COPY Gemfile Gemfile
 COPY Gemfile.lock Gemfile.lock
+RUN gem install bundler --version 2.3.7
 RUN bundle install
 
 COPY . /rails-app

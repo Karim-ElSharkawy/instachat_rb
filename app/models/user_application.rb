@@ -1,4 +1,4 @@
-# Model
+# Model for user_application db table.
 class UserApplication < ApplicationRecord
   has_many :chats, dependent: :delete_all
 

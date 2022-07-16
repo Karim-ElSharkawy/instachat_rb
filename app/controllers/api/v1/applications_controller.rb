@@ -23,11 +23,6 @@ module Api
         render response.render_response
       end
 
-      def destroy
-        response = @application_service.destroy_application_by_token(params[:token])
-        render response.render_response
-      end
-
       def show
         response = @application_service.show_application_by_token(params[:token])
         render response.render_response
@@ -40,6 +35,7 @@ module Api
         # Allow only name to be passed as token and chats_count is system-generated
         # and should not be made possible to alter from outside.
         params.require(:name)
+        { name: params[:name] }
       end
 
     end

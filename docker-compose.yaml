@@ -33,8 +33,14 @@ services:
       RAILS_ENV: development
       REDIS_HOST: redis
       REDIS_PORT: 6379
+      DB_USERNAME: root
+      DB_PASSWORD: 9gMFmlsGyd
+      DB_NAME: insta_chat
+      DB_PORT: 3306 # Commented to allow Docker to connect to mysql directly.
+      DB_HOST: mysql
     depends_on:
       - "redis"
+      - "mysql"
 #    logging:
 #      driver: none
   web:
@@ -44,7 +50,7 @@ services:
       DB_USERNAME: root
       DB_PASSWORD: 9gMFmlsGyd
       DB_NAME: insta_chat
-#      DB_PORT: 3307 # Commented to allow Docker to connect to mysql directly.
+      DB_PORT: 3306 # Commented to allow Docker to connect to mysql directly.
       DB_HOST: mysql
       RAILS_ENV: development
       RAILS_MAX_THREADS: 5
