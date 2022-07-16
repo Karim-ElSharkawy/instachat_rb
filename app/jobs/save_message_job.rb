@@ -17,7 +17,7 @@ class SaveMessageJob < ApplicationJob
     chat_found = @chat_db_service.find_chat(application_token, chat_number)
 
     # 2.1 if not found, return error response.
-    throw ActiveRecord::RecordNotFound if chat_found.nil?
+    return Response.new(404, 'Chat not found.', {}) if chat_found.nil?
 
     # 2. Create chat using application id and incrementing chat application-specific number.
     new_message = Message.create(
@@ -33,7 +33,7 @@ class SaveMessageJob < ApplicationJob
     if new_message.save
       Response.new(201, 'Message created.', new_message, %i[id chat_id])
     else
-      throw ActiveRecord::RecordNotSaved
+      Response.new(500, 'Message failed to be created.', new_message.errors)
     end
 
   end
