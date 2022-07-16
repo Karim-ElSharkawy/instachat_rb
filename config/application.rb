@@ -37,5 +37,6 @@ module InstaChat
     config.api_only = true
     config.autoload_paths += %W[#{config.root}/app]
     config.active_job.queue_adapter = :sidekiq
+    config.cache_store = :redis_cache_store, { expires_in: 1.hour }
   end
 end

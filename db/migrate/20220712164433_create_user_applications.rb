@@ -6,7 +6,7 @@ class CreateUserApplications < ActiveRecord::Migration[7.0]
       t.string :name, null: false
       t.integer :chats_count, default: 0, unsigned: true
 
-      # t.timestamps
+      t.timestamps
     end
 
     add_index :user_applications, :token

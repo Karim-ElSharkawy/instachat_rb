@@ -1,6 +1,11 @@
 # Service Responsible for User Application Logic.
 class ApplicationService
 
+  def initialize
+    super
+    @user_application_db_service = UserApplicationDbService.new
+  end
+
   def create_new(application_name)
     # 1. Create Application with given application name and generate UUID as token.
     application = UserApplication.create(name: application_name, token: SecureRandom.uuid)
@@ -18,7 +23,7 @@ class ApplicationService
 
   def update_application_by_token(token, new_application_name)
     # Find Application by Token.
-    application_to_be_updated = UserApplication.find_by_token(token)
+    application_to_be_updated = @user_application_db_service.find_app_by_token(token)
 
     # if not found, return error response.
     return Response.new(404, 'Application not found.', {}) if application_to_be_updated.nil?
@@ -37,7 +42,7 @@ class ApplicationService
   end
 
   def destroy_application_by_token(token)
-    application_to_be_deleted = UserApplication.find_by_token(token)
+    application_to_be_deleted = @user_application_db_service.find_app_by_token(token)
 
     # if not found, return error response.
     return Response.new(404, 'Application not found.', {}) if application_to_be_deleted.nil?
@@ -50,7 +55,7 @@ class ApplicationService
   end
 
   def show_application_by_token(token)
-    user_application = UserApplication.find_by_token(token)
+    user_application = @user_application_db_service.find_app_by_token(token)
 
     # if not found, return error response.
     return Response.new(404, 'Application not found.', {}) if user_application.nil?

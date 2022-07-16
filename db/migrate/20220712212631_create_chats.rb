@@ -6,7 +6,7 @@ class CreateChats < ActiveRecord::Migration[7.0]
       t.integer :messages_count, unsigned: true, default: 0
       t.belongs_to :user_application, index: true, foreign_key: true
 
-      # t.timestamps
+      t.timestamps
     end
 
     add_index :chats, :application_chat_number

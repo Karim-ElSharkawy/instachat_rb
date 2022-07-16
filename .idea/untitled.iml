@@ -44,6 +44,7 @@
     <orderEntry type="library" scope="PROVIDED" name="builder (v3.2.4, ruby-3.1.2-p20) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="bundler (v2.3.7, ruby-3.1.2-p20) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="concurrent-ruby (v1.1.10, ruby-3.1.2-p20) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="connection_pool (v2.2.5, ruby-3.1.2-p20) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="crass (v1.0.6, ruby-3.1.2-p20) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="digest (v3.1.0, ruby-3.1.2-p20) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="erubi (v1.10.0, ruby-3.1.2-p20) [gem]" level="application" />
@@ -79,11 +80,13 @@
     <orderEntry type="library" scope="PROVIDED" name="railties (v7.0.3, ruby-3.1.2-p20) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="rainbow (v3.1.1, ruby-3.1.2-p20) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="rake (v13.0.6, ruby-3.1.2-p20) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="redis (v4.7.1, ruby-3.1.2-p20) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="regexp_parser (v2.5.0, ruby-3.1.2-p20) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="rexml (v3.2.5, ruby-3.1.2-p20) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="rubocop (v1.31.2, ruby-3.1.2-p20) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="rubocop-ast (v1.19.1, ruby-3.1.2-p20) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="ruby-progressbar (v1.11.0, ruby-3.1.2-p20) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="sidekiq (v6.5.1, ruby-3.1.2-p20) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="spring (v4.0.0, ruby-3.1.2-p20) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="strscan (v3.0.3, ruby-3.1.2-p20) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="thor (v1.2.1, ruby-3.1.2-p20) [gem]" level="application" />
@@ -120,6 +123,7 @@
         <option value="resource" />
         <option value="scaffold" />
         <option value="scaffold_controller" />
+        <option value="sidekiq:job" />
         <option value="system_test" />
         <option value="task" />
         <option value="test_unit:channel" />
@@ -157,6 +161,7 @@
         <option value="resource" />
         <option value="scaffold" />
         <option value="scaffold_controller" />
+        <option value="sidekiq:job" />
         <option value="system_test" />
         <option value="task" />
         <option value="test_unit:channel" />
@@ -180,45 +185,6 @@
       <RakeTaskImpl id="rake">
         <subtasks>
           <RakeTaskImpl description="List versions of all Rails frameworks and the environment" fullCommand="about" id="about" />
-          <RakeTaskImpl id="action_mailbox">
-            <subtasks>
-              <RakeTaskImpl id="ingress">
-                <subtasks>
-                  <RakeTaskImpl description="Relay an inbound email from Exim to Action Mailbox (URL and INGRESS_PASSWORD required)" fullCommand="action_mailbox:ingress:exim" id="exim" />
-                  <RakeTaskImpl description="Relay an inbound email from Postfix to Action Mailbox (URL and INGRESS_PASSWORD required)" fullCommand="action_mailbox:ingress:postfix" id="postfix" />
-                  <RakeTaskImpl description="Relay an inbound email from Qmail to Action Mailbox (URL and INGRESS_PASSWORD required)" fullCommand="action_mailbox:ingress:qmail" id="qmail" />
-                  <RakeTaskImpl description="" fullCommand="action_mailbox:ingress:environment" id="environment" />
-                </subtasks>
-              </RakeTaskImpl>
-              <RakeTaskImpl description="Installs Action Mailbox and its dependencies" fullCommand="action_mailbox:install" id="install" />
-              <RakeTaskImpl id="install">
-                <subtasks>
-                  <RakeTaskImpl description="Copy migrations from action_mailbox to application" fullCommand="action_mailbox:install:migrations" id="migrations" />
-                </subtasks>
-              </RakeTaskImpl>
-            </subtasks>
-          </RakeTaskImpl>
-          <RakeTaskImpl id="action_text">
-            <subtasks>
-              <RakeTaskImpl description="Copy over the migration, stylesheet, and JavaScript files" fullCommand="action_text:install" id="install" />
-              <RakeTaskImpl id="install">
-                <subtasks>
-                  <RakeTaskImpl description="Copy migrations from action_text to application" fullCommand="action_text:install:migrations" id="migrations" />
-                </subtasks>
-              </RakeTaskImpl>
-            </subtasks>
-          </RakeTaskImpl>
-          <RakeTaskImpl id="active_storage">
-            <subtasks>
-              <RakeTaskImpl description="Copy over the migration needed to the application" fullCommand="active_storage:install" id="install" />
-              <RakeTaskImpl id="install">
-                <subtasks>
-                  <RakeTaskImpl description="" fullCommand="active_storage:install:migrations" id="migrations" />
-                </subtasks>
-              </RakeTaskImpl>
-              <RakeTaskImpl description="" fullCommand="active_storage:update" id="update" />
-            </subtasks>
-          </RakeTaskImpl>
           <RakeTaskImpl id="app">
             <subtasks>
               <RakeTaskImpl description="Applies the template supplied by LOCATION=(/path/to/template) or URL" fullCommand="app:template" id="template" />

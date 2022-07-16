@@ -2,9 +2,11 @@ class SaveChatJob < ApplicationJob
   # Set the Queue as Default
   queue_as :default
 
+  @user_application_db_service = UserApplicationDbService.new
+
   def perform(application_token)
     # 1. Find application by token.
-    user_application = UserApplication.find_by_token(application_token)
+    user_application = @user_application_db_service.find_app_by_token(application_token)
 
     # 1.1 if not found, return error response.
     return Response.new(404, 'Application not found.', {}) if user_application.nil?

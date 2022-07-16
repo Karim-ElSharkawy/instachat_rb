@@ -1,13 +1,18 @@
 # Service Responsible for User's Chat Logic.
 class ChatService
 
+  def initialize
+    super
+    @user_application_db_service = UserApplicationDbService.new
+  end
+
   def create_new(application_token)
     SaveChatJob.perform_now(application_token)
   end
 
   def update_chat(application_token, chat_number, parameters)
     # Find Application by Token.
-    application_found = UserApplication.find_by_token(application_token)
+    application_found = @user_application_db_service.find_app_by_token(application_token)
 
     # if not found, return error response.
     return Response.new(404, 'Application not found.', {}) if application_found.nil?
@@ -34,7 +39,7 @@ class ChatService
 
   def delete_chat(application_token, chat_number)
     # Find Application by Token.
-    application_found = UserApplication.find_by_token(application_token)
+    application_found = @user_application_db_service.find_app_by_token(application_token)
 
     # if not found, return error response.
     return Response.new(404, 'Application not found.', {}) if application_found.nil?
@@ -61,7 +66,7 @@ class ChatService
 
   def show_chat(application_token, chat_number)
     # 1. Find Application by Token.
-    application_found = UserApplication.find_by_token(application_token)
+    application_found = @user_application_db_service.find_app_by_token(application_token)
 
     # 1.1 if not found, return error response.
     return Response.new(404, 'Application not found.', {}) if application_found.nil?
