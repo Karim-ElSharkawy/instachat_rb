@@ -12,7 +12,8 @@ class UserApplicationDbService
 
     if application.nil?
       application = UserApplication.find_by_token(application_token)
-      @redis.set(application_token, application.to_json, ex: 1.hours.to_s)
+
+      @redis.set(application_token, application.to_json, ex: 1.hours.to_s) unless application.nil?
     else
       application = JSON.parse(application, object_class: UserApplication)
     end

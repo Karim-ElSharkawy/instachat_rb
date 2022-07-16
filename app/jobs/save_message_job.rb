@@ -9,20 +9,12 @@ class SaveMessageJob < ApplicationJob
   def initialize(*arguments)
     super
     @user_application_db_service = UserApplicationDbService.new
+    @chat_db_service = ChatDbService.new
   end
 
   def perform(application_token, chat_number, text_value)
-    # 1. Find Application by Token.
-    application_found = @user_application_db_service.find_app_by_token(application_token)
-
-    # 1.1 if not found, return error response.
-    throw ActiveRecord::RecordNotFound if application_found.nil?
-
-    # 2. Find Chat by App ID and Chat Number.
-    chat_found = Chat.find_by(
-      user_application_id: application_found.id,
-      application_chat_number: chat_number
-    )
+    # 1. Find Chat by App token and Chat Number.
+    chat_found = @chat_db_service.find_chat(application_token, chat_number)
 
     # 2.1 if not found, return error response.
     throw ActiveRecord::RecordNotFound if chat_found.nil?
