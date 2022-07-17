@@ -9,6 +9,11 @@ class Message < ApplicationRecord
           "bool": {
             "must": [
               {
+                "match": {
+                  "chat_id": chat_id
+                }
+              },
+              {
                 wildcard: {
                   "text": {
                     "value": "*#{query_text}*"
