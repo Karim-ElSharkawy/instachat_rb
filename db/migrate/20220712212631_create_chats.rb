@@ -1,5 +1,5 @@
 # Migration: Chats Table
-class CreateChats < ActiveRecord::Migration[7.0]
+class CreateChats < ActiveRecord::Migration[5.2]
   def change
     create_table :chats do |t|
       t.integer :application_chat_number, unsigned: true, null: false, default: 1

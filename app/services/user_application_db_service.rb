@@ -2,7 +2,7 @@
 class UserApplicationDbService
   def initialize
     super
-    @redis = Redis.new
+    @redis = Redis.new(:host => ENV["REDIS_HOST"], :port => ENV["REDIS_PORT"])
     begin
       @redis.ping
 

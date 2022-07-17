@@ -1,5 +1,5 @@
 # Migration: User Applications Table
-class CreateUserApplications < ActiveRecord::Migration[7.0]
+class CreateUserApplications < ActiveRecord::Migration[5.2]
   def change
     create_table :user_applications do |t|
       t.string :token, limit: 36, unique: true

@@ -41,11 +41,10 @@
     <orderEntry type="library" scope="PROVIDED" name="ast (v2.4.2, ruby-2.5.8-p224) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="bootsnap (v1.12.0, ruby-2.5.8-p224) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="builder (v3.2.4, ruby-2.5.8-p224) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="bundler (v2.3.18, ruby-2.5.8-p224) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="bundler (v2.3.7, ruby-2.5.8-p224) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="concurrent-ruby (v1.1.10, ruby-2.5.8-p224) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="connection_pool (v2.2.5, ruby-2.5.8-p224) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="crass (v1.0.6, ruby-2.5.8-p224) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="debug (v0.2.1, ruby-2.5.8-p224) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="elasticsearch (v7.17.1, ruby-2.5.8-p224) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="elasticsearch-api (v7.17.1, ruby-2.5.8-p224) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="elasticsearch-model (v7.2.1, ruby-2.5.8-p224) [gem]" level="application" />
@@ -100,7 +99,6 @@
     <orderEntry type="library" scope="PROVIDED" name="ruby-progressbar (v1.11.0, ruby-2.5.8-p224) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="ruby2_keywords (v0.0.5, ruby-2.5.8-p224) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="sidekiq (v6.5.1, ruby-2.5.8-p224) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="spring (v3.1.1, ruby-2.5.8-p224) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="sprockets (v4.1.1, ruby-2.5.8-p224) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="sprockets-rails (v3.4.2, ruby-2.5.8-p224) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="thor (v1.2.1, ruby-2.5.8-p224) [gem]" level="application" />
@@ -213,6 +211,7 @@
                   <RakeTaskImpl description="Set the environment value for the database" fullCommand="db:environment:set" id="set" />
                 </subtasks>
               </RakeTaskImpl>
+              <RakeTaskImpl description="Checks to see if the database exists" fullCommand="db:exists" id="exists" />
               <RakeTaskImpl id="fixtures">
                 <subtasks>
                   <RakeTaskImpl description="Loads fixtures into the current environment's database" fullCommand="db:fixtures:load" id="load" />
