@@ -61,6 +61,8 @@ class MessageService
 
     result = Message.search(message_text, chat_found.id)
 
+    return Response.new(500, 'Messages could not be searched. Connection timed out.', {}) if result.nil?
+
     Response.new(200, 'Messages Searched.', result, %i[id chat_id])
   end
 end

@@ -1,9 +1,7 @@
-if UserApplication.any?
-  Chat.delete_all
-  UserApplication.delete_all
-end
+# frozen_string_literal: true
+return unless Rails.env.development?
 
-15.times do
+30.times do
 
   UserApplication.create(
     {
@@ -28,4 +26,14 @@ applications.length.times do
                 application_chat_number: length_var,
                 user_application_id: application.id
               })
+end
+
+Chat.all.each do |chat|
+  15.times do
+    Message.create(
+      text: Faker::Quote.most_interesting_man_in_the_world,
+      chat_id: chat.id,
+      chat_message_number: chat.messages.count + 1
+    )
+  end
 end

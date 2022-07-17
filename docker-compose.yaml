@@ -7,8 +7,8 @@ services:
       - "3307:3306"
     environment:
       - MYSQL_ROOT_PASSWORD=9gMFmlsGyd
-#    volumes:
-#      - mysql:/var/run/instachat_rails
+    volumes:
+      - mysql:/insta_chat_vol
 #    logging:
 #      driver: none
   elasticsearch:
@@ -38,7 +38,7 @@ services:
       DB_USERNAME: root
       DB_PASSWORD: 9gMFmlsGyd
       DB_NAME: insta_chat
-      DB_PORT: 3306 # Commented to allow Docker to connect to mysql directly.
+      DB_PORT: 3306
       DB_HOST: mysql
     depends_on:
       - "redis"
@@ -52,7 +52,7 @@ services:
       DB_USERNAME: root
       DB_PASSWORD: 9gMFmlsGyd
       DB_NAME: insta_chat
-      DB_PORT: 3306 # Commented to allow Docker to connect to mysql directly.
+      DB_PORT: 3306
       DB_HOST: mysql
       RAILS_ENV: development
       RAILS_MAX_THREADS: 5

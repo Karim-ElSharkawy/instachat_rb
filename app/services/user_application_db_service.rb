@@ -3,10 +3,17 @@ class UserApplicationDbService
   def initialize
     super
     @redis = Redis.new
+    begin
+      @redis.ping
+
+    rescue Redis::BaseConnectionError => e
+      @redis = nil
+      p "Redis Connection Error: #{e.message}"
+    end
   end
 
   def find_app_by_token(application_token)
-    UserApplication.find_by_token(application_token) if @redis.nil?
+    return UserApplication.find_by_token(application_token) if @redis.nil?
 
     application = @redis.get(application_token)
 

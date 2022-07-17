@@ -3,6 +3,14 @@ class ChatDbService
   def initialize
     super
     @redis = Redis.new
+    begin
+      @redis.ping
+
+    rescue Redis::BaseConnectionError => e
+      @redis = nil
+      p "Redis Connection Error: #{e.message}"
+    end
+
     @user_application_db_service = UserApplicationDbService.new
   end
 
