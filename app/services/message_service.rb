@@ -51,4 +51,16 @@ class MessageService
     # 3. Return chat found.
     Response.new(200, 'Message found.', message_obj_found, %i[id chat_id])
   end
+
+  def search(application_token, chat_number, message_text)
+    # 1. Find Chat by App ID and Chat Number.
+    chat_found = @chat_db_service.find_chat(application_token, chat_number)
+
+    # if not found, return error response.
+    return Response.new(404, 'Chat not found.', {}) if chat_found.nil?
+
+    result = Message.search(message_text, chat_found.id)
+
+    Response.new(200, 'Messages Searched.', result, %i[id chat_id])
+  end
 end

@@ -16,7 +16,7 @@ module Api
         response = @message_service.create_new(
           params[:application_token],
           params[:chat_number],
-          allowed_message_params
+          allowed_message_params[:text]
         )
         render response.render_response
       end
@@ -37,6 +37,15 @@ module Api
           params[:application_token],
           params[:chat_number],
           params[:number]
+        )
+        render response.render_response
+      end
+
+      def search
+        response = @message_service.search(
+          params[:application_token],
+          params[:chat_number],
+          params[:text]
         )
         render response.render_response
       end

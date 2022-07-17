@@ -7,7 +7,9 @@ Rails.application.routes.draw do
                   only: %i[create update show] do
           resources :messages,
                     param: :number,
-                    only: %i[create update show]
+                    only: %i[create update show] do
+            post 'search', on: :collection
+          end
         end
       end
     end
