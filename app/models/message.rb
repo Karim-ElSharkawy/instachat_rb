@@ -22,7 +22,8 @@ class Message < ApplicationRecord
               {
                 wildcard: {
                   "text": {
-                    "value": "*#{query_text}*"
+                    "value": "*#{query_text}*",
+                    "case_insensitive": true
                   }
                 }
               }
