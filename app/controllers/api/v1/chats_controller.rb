@@ -42,7 +42,7 @@ module Api
         # Currently, there is no field that needs to be updated in Chats. As they are all handled by the system
         # and it is not safe to allow all parameters to be updated at will.
         # params.require(:messages_count)
-        {}
+        # { messages_count: params[:messages_count] }
       end
 
     end

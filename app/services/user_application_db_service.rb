@@ -2,7 +2,7 @@
 class UserApplicationDbService
   def initialize
     super
-    @redis = Redis.new(:host => ENV["REDIS_HOST"], :port => ENV["REDIS_PORT"])
+    @redis = Redis.new(host: ENV['REDIS_HOST'], port: ENV['REDIS_PORT'])
     begin
       @redis.ping
 
@@ -13,12 +13,12 @@ class UserApplicationDbService
   end
 
   def find_app_by_token(application_token)
-    return UserApplication.find_by_token(application_token) if @redis.nil?
+    return FetchUserApplicationJob.perform_now(application_token) if @redis.nil?
 
     application = @redis.get(application_token)
 
     if application.nil?
-      application = UserApplication.find_by_token(application_token)
+      application = FetchUserApplicationJob.perform_now(application_token)
 
       @redis.set(application_token, application.to_json, ex: 1.hours.to_s) unless application.nil?
     else
@@ -26,5 +26,9 @@ class UserApplicationDbService
     end
 
     application
+  end
+
+  def save_app_by_token(application_token, app_obj)
+    @redis.set(application_token, app_obj.to_json, ex: 1.hours.to_s)
   end
 end

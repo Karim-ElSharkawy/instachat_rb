@@ -33,7 +33,7 @@ module Api
       end
 
       def show
-        response = @message_service.show_chat(
+        response = @message_service.show_message(
           params[:application_token],
           params[:chat_number],
           params[:number]

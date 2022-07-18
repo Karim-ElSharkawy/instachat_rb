@@ -12,28 +12,22 @@ class SaveMessageJob < ApplicationJob
     @chat_db_service = ChatDbService.new
   end
 
-  def perform(application_token, chat_number, text_value)
-    # 1. Find Chat by App token and Chat Number.
-    chat_found = @chat_db_service.find_chat(application_token, chat_number)
-
-    # 2.1 if not found, return error response.
-    return Response.new(404, 'Chat not found.', {}) if chat_found.nil?
-
-    # 2. Create chat using application id and incrementing chat application-specific number.
+  def perform(chat_identifier, message_count, text_value)
+    # 1. Create chat using application id and incrementing chat application-specific number.
     new_message = Message.create(
       text: text_value,
-      chat_id: chat_found.id,
-      chat_message_number: chat_found.messages.count + 1
+      chat_id: chat_identifier,
+      chat_message_number: message_count
     )
 
     # Async
-    UpdateChatMsgCountJob.perform_later(chat_found.id, new_message.chat_message_number)
+    UpdateChatMsgCountJob.perform_later(chat_identifier, message_count)
 
     # 3. Return Response based on the creation status.
     if new_message.save
       Response.new(201, 'Message created.', new_message, %i[id chat_id])
     else
-      Response.new(500, 'Message failed to be created.', new_message.errors)
+      throw ActiveRecord::RecordNotSaved
     end
 
   end

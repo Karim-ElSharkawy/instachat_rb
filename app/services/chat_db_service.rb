@@ -17,13 +17,14 @@ class ChatDbService
   def find_chat(application_token, chat_number)
     user_application = @user_application_db_service.find_app_by_token(application_token)
 
-    Chat.find_by(user_application_id: user_application.id, application_chat_number: chat_number) if @redis.nil?
     return nil if user_application.nil?
+
+    return FetchChatJob.perform_now(user_application.id, chat_number) if @redis.nil?
 
     chat = @redis.get("#{application_token}_chat_#{chat_number}")
 
     if chat.nil?
-      chat = Chat.find_by(user_application_id: user_application.id, application_chat_number: chat_number)
+      chat = FetchChatJob.perform_now(user_application.id, chat_number)
 
       @redis.set("#{application_token}_chat_#{chat_number}", chat.to_json, ex: 1.hours.to_s) unless chat.nil?
     else
@@ -31,5 +32,11 @@ class ChatDbService
     end
 
     chat
+  end
+
+  def save_chat_by_token(application_token, chat_obj)
+    return if @redis.nil?
+
+    @redis.set("#{application_token}_chat_#{chat_obj.application_chat_number}", chat_obj.to_json, ex: 1.hours.to_s)
   end
 end
